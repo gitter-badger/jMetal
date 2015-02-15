@@ -5,7 +5,7 @@ import org.uma.jmetal.solution.AsynchronousSolution;
 
 public abstract class AbstractGenericAsynchronousSolution<Type, P extends Problem> extends AbstractGenericSolution<Type, P>
 													   		    				     implements AsynchronousSolution<Type>{
-	
+	/*
 	//flag to check whether the solution is already evaluated
 	protected boolean evaluated;
 	
@@ -18,7 +18,8 @@ public abstract class AbstractGenericAsynchronousSolution<Type, P extends Proble
 	    objectives.set(index, value) ;
 	}
 
-    synchronized public double getObjective(int index) {
+  @Override
+  synchronized public double getObjective(int index) {
     	if (!isEvaluated())
 			try {
 				wait();
@@ -43,5 +44,5 @@ public abstract class AbstractGenericAsynchronousSolution<Type, P extends Proble
     	evaluated = false;
     }
     
-    
+    */
 }

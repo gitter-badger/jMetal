@@ -21,17 +21,28 @@
 
 package org.uma.jmetal.problem.multiobjective.zdt;
 
+import org.uma.jmetal.problem.Problem;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.solution.impl.GenericDoubleSolution;
+import org.uma.jmetal.solution.util.MultithreadedObjectiveManager;
+import org.uma.jmetal.util.JMetalException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** Class representing problem ZDT1 */
-public class ZDT1 extends AbstractDoubleProblem {
+public class ZDT11 extends AbstractDoubleProblem {
+  final ExecutorService executor;
+  Problem p2 = new ZDT1(1000) ;
 
   /** Constructor. Creates default instance of problem ZDT1 (30 decision variables) */
-  public ZDT1() {
+  public ZDT11() {
     this(1000);
   }
 
@@ -40,7 +51,7 @@ public class ZDT1 extends AbstractDoubleProblem {
    *
    * @param numberOfVariables Number of variables.
    */
-  public ZDT1(Integer numberOfVariables) {
+  public ZDT11(Integer numberOfVariables) {
     setNumberOfVariables(numberOfVariables);
     setNumberOfObjectives(2);
     setName("ZDT1");
@@ -55,19 +66,21 @@ public class ZDT1 extends AbstractDoubleProblem {
 
     setLowerLimit(lowerLimit);
     setUpperLimit(upperLimit);
+
+    executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+  }
+
+  @Override
+  public DoubleSolution createSolution() {
+    DoubleSolution solution = new GenericDoubleSolution(this);
+    solution.setObjectiveManager(new MultithreadedObjectiveManager(1000));
+
+    return solution ;
   }
 
   /** Evaluate() method */
   public void evaluate(DoubleSolution solution) {
-    double[] f = new double[getNumberOfObjectives()];
-
-    f[0] = solution.getVariableValue(0);
-    double g = this.evalG(solution);
-    double h = this.evalH(f[0], g);
-    f[1] = h * g;
-
-    solution.setObjective(0, f[0]);
-    solution.setObjective(1, f[1]);
+    executor.execute(new MyRunnable(solution, p2));
   }
 
   /**
@@ -97,4 +110,30 @@ public class ZDT1 extends AbstractDoubleProblem {
     h = 1.0 - Math.sqrt(f / g);
     return h;
   }
+
+  public class MyRunnable implements Runnable{
+
+    Solution s;
+    Problem p;
+
+    public MyRunnable(Solution solution, Problem problem) {
+      s = solution;
+      p = problem;
+    }
+    @Override
+    public void run() {
+      s.getObjectiveManager().toBeEvaluated();
+      try {
+        p.evaluate(s);
+      } catch (JMetalException ex) {
+        Logger.getLogger(MyRunnable.class.getName()).log(Level.SEVERE, null, ex);
+      }
+      s.getObjectiveManager().evaluated();
+    }
+
+
+  }
+
+
+
 }

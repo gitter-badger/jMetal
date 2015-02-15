@@ -39,7 +39,6 @@ public class GenericBinarySolution extends AbstractGenericSolution<BinarySet, Bi
   public GenericBinarySolution(BinaryProblem problem) {
     this.problem = problem ;
 
-    objectives = new ArrayList<>(problem.getNumberOfObjectives()) ;
     variables = new ArrayList<>(problem.getNumberOfVariables()) ;
     overallConstraintViolationDegree = 0.0 ;
     numberOfViolatedConstraints = 0 ;
@@ -49,16 +48,15 @@ public class GenericBinarySolution extends AbstractGenericSolution<BinarySet, Bi
     }
 
     for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-      objectives.add(0.0) ;
+      setObjective(i, 0.0) ;
     }
   }
 
   /** Copy constructor */
   public GenericBinarySolution(GenericBinarySolution solution) {
     problem = solution.problem ;
-    objectives = new ArrayList<>() ;
     for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-      objectives.add(solution.getObjective(i)) ;
+      setObjective(i, solution.getObjective(i)) ;
     }
 
     variables = new ArrayList<>() ;

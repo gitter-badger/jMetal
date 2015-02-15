@@ -16,7 +16,6 @@ public class GenericDoubleSolution extends AbstractGenericSolution<Double, Doubl
     super() ;
 
   	this.problem = problem ;
-    objectives = new ArrayList<>(problem.getNumberOfObjectives()) ;
     variables = new ArrayList<>(problem.getNumberOfVariables()) ;
     overallConstraintViolationDegree = 0.0 ;
     numberOfViolatedConstraints = 0 ;
@@ -27,16 +26,15 @@ public class GenericDoubleSolution extends AbstractGenericSolution<Double, Doubl
     }
 
     for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-      objectives.add(new Double(0.0)) ;
+      objectiveManager.setObjective(i, 0.0) ;
     }
   }
 
   /** Copy constructor */
   public GenericDoubleSolution(GenericDoubleSolution solution) {
     problem = solution.problem ;
-    objectives = new ArrayList<>() ;
-    for (Double obj : solution.objectives) {
-      objectives.add(new Double(obj)) ;
+    for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
+      setObjective(i, solution.getObjective(i)) ;
     }
     variables = new ArrayList<>() ;
     for (Double var : solution.variables) {

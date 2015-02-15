@@ -1,6 +1,7 @@
 package org.uma.jmetal.newfeatures;
 
 import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.problem.impl.AbstractGenericProblem;
 import org.uma.jmetal.solution.Solution;
 import org.uma.jmetal.util.JMetalException;
 
@@ -9,11 +10,11 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MultithreadedProblem<S extends Solution<?>, P extends Problem> {
-  private P problem ;
+public class MultithreadedProblem2<S extends Solution<?>> extends AbstractGenericProblem<S> {
+  private Problem<S> problem ;
   ExecutorService executor ;
 
-  public MultithreadedProblem(P problem) {
+  public MultithreadedProblem2(Problem<S> problem) {
     this.problem = problem ;
     executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()) ;
   }
@@ -26,12 +27,15 @@ public class MultithreadedProblem<S extends Solution<?>, P extends Problem> {
     return (S)problem.createSolution();
   }
 
+
+
+
   private class MyRunnable implements Runnable{
 
-    Solution s;
-    P p;
+    S s;
+    Problem p;
 
-    public MyRunnable(Solution solution, P problem) {
+    public MyRunnable(S solution, Problem problem) {
       s = solution;
       p = problem;
     }
@@ -47,4 +51,7 @@ public class MultithreadedProblem<S extends Solution<?>, P extends Problem> {
 
   }
 
+  public void finalize() {
+    executor.shutdown();
+  }
 }

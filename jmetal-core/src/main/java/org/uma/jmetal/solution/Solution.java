@@ -13,6 +13,8 @@
 
 package org.uma.jmetal.solution;
 
+import org.uma.jmetal.solution.util.ObjectiveManager;
+
 import java.io.Serializable;
 
 /**
@@ -39,6 +41,9 @@ public interface Solution<T> extends Serializable {
   public void setNumberOfViolatedConstraints(int numberOfViolatedConstraints) ;
 
   public Solution copy() ;
+
+  public void setObjectiveManager(ObjectiveManager objectiveManager) ;
+  public ObjectiveManager getObjectiveManager() ;
 
   public void setAttribute(Object id, Object value) ;
   public Object getAttribute(Object id) ;

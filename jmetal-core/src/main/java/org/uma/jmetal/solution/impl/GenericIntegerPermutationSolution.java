@@ -18,7 +18,6 @@ public class GenericIntegerPermutationSolution
   /** Constructor */
   public GenericIntegerPermutationSolution(PermutationProblem problem) {
     this.problem = problem ;
-    objectives = new ArrayList<>(problem.getNumberOfObjectives()) ;
     variables = new ArrayList<>(problem.getNumberOfVariables()) ;
     overallConstraintViolationDegree = 0.0 ;
     numberOfViolatedConstraints = 0 ;
@@ -38,9 +37,8 @@ public class GenericIntegerPermutationSolution
   /** Copy Constructor */
   public GenericIntegerPermutationSolution(GenericIntegerPermutationSolution solution) {
     problem = solution.problem ;
-    objectives = new ArrayList<>() ;
-    for (Double obj : solution.objectives) {
-      objectives.add(new Double(obj)) ;
+    for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
+      setObjective(i, solution.getObjective(i)) ;
     }
     variables = new ArrayList<>() ;
     for (List<Integer> var : solution.variables) {

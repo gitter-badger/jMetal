@@ -18,14 +18,13 @@ import java.util.HashMap;
  *  - the bitset is the last variable
  */
 public class GenericDoubleBinarySolution
-        extends AbstractGenericSolution<Object, DoubleBinaryProblem>
-        implements DoubleBinarySolution {
+    extends AbstractGenericSolution<Object, DoubleBinaryProblem>
+    implements DoubleBinarySolution {
   private int numberOfDoubleVariables ;
 
   /** Constructor */
   public GenericDoubleBinarySolution(DoubleBinaryProblem problem) {
     this.problem = problem ;
-    objectives = new ArrayList<>(problem.getNumberOfObjectives()) ;
     variables = new ArrayList<>(problem.getNumberOfVariables()) ;
     numberOfDoubleVariables = problem.getNumberOfDoubleVariables() ;
     overallConstraintViolationDegree = 0.0 ;
@@ -39,10 +38,10 @@ public class GenericDoubleBinarySolution
   /** Copy constructor */
   public GenericDoubleBinarySolution(GenericDoubleBinarySolution solution) {
     problem = solution.problem ;
-    objectives = new ArrayList<>() ;
-    for (Double obj : solution.objectives) {
-      objectives.add(new Double(obj)) ;
+    for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
+      setObjective(i, solution.getObjective(i)) ;
     }
+
     copyDoubleVariables(solution);
     copyBitSet(solution);
 

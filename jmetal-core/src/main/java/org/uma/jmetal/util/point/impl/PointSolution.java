@@ -14,6 +14,7 @@
 package org.uma.jmetal.util.point.impl;
 
 import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.solution.util.ObjectiveManager;
 
 import java.util.Arrays;
 
@@ -35,6 +36,13 @@ public class PointSolution implements Solution<Double> {
   public PointSolution(int numberOfObjectives) {
     this.numberOfObjectives = numberOfObjectives ;
     objectives = new double[numberOfObjectives] ;
+  }
+
+  @Override
+  public void setObjectiveManager(ObjectiveManager om) {}
+
+  @Override public ObjectiveManager getObjectiveManager() {
+    return null;
   }
 
   /**

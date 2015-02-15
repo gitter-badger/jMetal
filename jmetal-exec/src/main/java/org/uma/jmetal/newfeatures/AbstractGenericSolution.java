@@ -1,9 +1,7 @@
-package org.uma.jmetal.solution.impl;
+package org.uma.jmetal.newfeatures;
 
 import org.uma.jmetal.problem.Problem;
 import org.uma.jmetal.solution.Solution;
-import org.uma.jmetal.solution.util.ObjectiveManager;
-import org.uma.jmetal.solution.util.SequentialObjectiveManager;
 import org.uma.jmetal.util.pseudorandom.JMetalRandom;
 
 import java.util.HashMap;
@@ -26,20 +24,18 @@ public abstract class AbstractGenericSolution<T, P extends Problem> implements S
   /**
    * Constructor
    */
-  protected AbstractGenericSolution() {
+  //protected AbstractGenericSolution() {
+  //  this(new SequentialObjectiveManager()) ;
+  //}
+
+  protected AbstractGenericSolution(ObjectiveManager objectiveManager) {
     attributes = new HashMap<>() ;
     randomGenerator = JMetalRandom.getInstance() ;
-    objectiveManager = new SequentialObjectiveManager(1000) ;
-  }
-
-  @Override
-  public void setObjectiveManager(ObjectiveManager objectiveManager) {
     this.objectiveManager = objectiveManager ;
   }
 
-  @Override
-  public ObjectiveManager getObjectiveManager() {
-    return objectiveManager ;
+  public void setObjectiveManager(ObjectiveManager objectiveManager) {
+    this.objectiveManager = objectiveManager ;
   }
 
   @Override
@@ -54,7 +50,7 @@ public abstract class AbstractGenericSolution<T, P extends Problem> implements S
 
   @Override
   public void setObjective(int index, double value) {
-    objectiveManager.setObjective(index, value) ;
+    objectiveManager.setObjective(index, value);
   }
 
   @Override
@@ -79,7 +75,7 @@ public abstract class AbstractGenericSolution<T, P extends Problem> implements S
 
   @Override
   public int getNumberOfObjectives() {
-    return objectiveManager.getNumberOfObjectives();
+    return objectiveManager.getNumberOfObjectives() ;
   }
 
   @Override
@@ -103,7 +99,7 @@ public abstract class AbstractGenericSolution<T, P extends Problem> implements S
 
   protected void initializeObjectiveValues() {
     for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-      objectiveManager.setObjective(i, 0.0);
+      objectiveManager.setObjective(i, 0.0); ;
     }
   }
 
@@ -158,7 +154,6 @@ public abstract class AbstractGenericSolution<T, P extends Problem> implements S
     result = 1 ;
     //result = objectives != null ? objectives.hashCode() : 0;
     result = 31 * result + (variables != null ? variables.hashCode() : 0);
-    //result = 31 * result + (problem != null ? problem.hashCode() : 0);
     temp = Double.doubleToLongBits(overallConstraintViolationDegree);
     result = 31 * result + (int) (temp ^ (temp >>> 32));
     result = 31 * result + (attributes != null ? attributes.hashCode() : 0);
