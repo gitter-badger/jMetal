@@ -25,6 +25,8 @@ public class EnvironmentalSelection<S extends Solution<?>> implements SelectionO
 
   @Override
   public List<S> execute(List<S> source2) {
+    strengthRawFitness.computeDensityEstimator(source2);
+      
     int size;
     List<S> source = new ArrayList<>(source2.size());
     source.addAll(source2);

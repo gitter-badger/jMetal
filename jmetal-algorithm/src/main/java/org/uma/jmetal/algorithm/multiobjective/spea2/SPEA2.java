@@ -8,7 +8,6 @@ import org.uma.jmetal.algorithm.multiobjective.spea2.util.EnvironmentalSelection
 import org.uma.jmetal.problem.Problem;
 import org.uma.jmetal.solution.Solution;
 import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
-import org.uma.jmetal.util.solutionattribute.impl.StrengthRawFitness;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,6 @@ public class SPEA2<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
   protected final SolutionListEvaluator<S> evaluator;
   protected int iterations;
   protected List<S> archive;
-  private final StrengthRawFitness<S> strenghtRawFitness = new StrengthRawFitness<S>();
   private final EnvironmentalSelection<S> environmentalSelection;
 
   public SPEA2(Problem<S> problem, int maxIterations, int populationSize,
@@ -80,7 +78,6 @@ public class SPEA2<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
     List<S> union = new ArrayList<>(2*populationSize);
     union.addAll(archive);
     union.addAll(population);
-    strenghtRawFitness.computeDensityEstimator(union);
     archive = environmentalSelection.execute(union);
     return archive;
   }

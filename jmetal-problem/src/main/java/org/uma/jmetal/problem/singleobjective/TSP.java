@@ -44,7 +44,7 @@ public class TSP extends AbstractIntegerPermutationProblem {
 
     setNumberOfVariables(numberOfCities);
     setNumberOfObjectives(1);
-    setName("TSP");
+    setName("TSP_" + new File(distanceFile).getName());
   }
 
   /** Evaluate() method */
@@ -76,7 +76,7 @@ public class TSP extends AbstractIntegerPermutationProblem {
   private double [][] readProblem(String file) throws IOException {
     double [][] matrix = null;
 
-    InputStream in = getClass().getResourceAsStream(file);
+    InputStream in = new FileInputStream(file);
     InputStreamReader isr = new InputStreamReader(in);
     BufferedReader br = new BufferedReader(isr);
 
