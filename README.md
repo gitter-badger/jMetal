@@ -1,5 +1,7 @@
 # jMetal Development Site
 
+[![Join the chat at https://gitter.im/GiovaniGuizzo/jMetal](https://badges.gitter.im/GiovaniGuizzo/jMetal.svg)](https://gitter.im/GiovaniGuizzo/jMetal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 **jMetal** is an object-oriented Java-based framework for multi-objective optimization with metaheuristics
 (http://jmetal.sourceforge.net).
 
